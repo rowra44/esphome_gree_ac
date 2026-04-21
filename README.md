@@ -27,7 +27,7 @@ Create a new project in the ESPbuilder from Home assistant and use my YAML (from
 Then you should be able to compile it. I think you can flash directly from Home Assistant,
 but I downloaded the compiled binary and flashed with: https://github.com/esphome/esphome-flasher/releases
 
-See FlashingLayout.jpg for wiring for flashing. Alternatively, if you plan to flash several, it might be worthwile to make an adapted version of the USB-TO-TTL adapter and solder 2 jumpers, which willl put the chip into programming mode immediately, so you can just clip on the chip and flash it. See modifiedTTL.jpg
+See FlashingLayout.jpg for wiring for flashing. Alternatively, if you plan to flash several, it might be worthwile to make an adapted version of the USB-TO-TTL adapter and solder 2 jumpers, which willl put the chip into programming mode immediately, so no more wiring, you can just clip on the chip and flash it right away. See modifiedTTL.jpg
 
 See the 4 module cable photos for wiring (for flashing and the wiring for connecting it to your AC). The connector is a 4 pins “JST XARP-04V”, you can for example order them here: https://es.aliexpress.com/item/1005009830663057.html. Alternatively it's possible to just use dupont cables and then put tape around the 4 ends to simulate the form of a connector (so that it makes it thicker), so that it will sit still in the connector socket, but make sure all 4 cables make connection, I tried that first and you might need to make adjustments because of 1 cable not making solid connection (this might result in errors in the log). So best to use the real connector. 
 
