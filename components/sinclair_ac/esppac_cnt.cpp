@@ -247,6 +247,9 @@ void SinclairACCNT::send_packet()
                 case climate::CLIMATE_MODE_HEAT:
                     mode = protocol::REPORT_MODE_HEAT;
                     break;
+                default:
+                    /* OFF / HEAT_COOL: keep mode at its default (REPORT_MODE_AUTO) */
+                    break;				
             }
             power = false;
             break;
