@@ -43,8 +43,6 @@ void SinclairAC::setup()
         custom_modes.push_back(mode.name);
     }
 
-    this->set_translation_key("gree");
-
     // Call it directly on "this" (the Climate entity), NOT on the traits object
     this->set_supported_custom_fan_modes(custom_modes);
 
