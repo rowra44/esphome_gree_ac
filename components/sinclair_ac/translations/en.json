@@ -1,7 +1,14 @@
 {
+  "config": {
+    "step": {
+      "user": {
+        "title": "Sinclair AC"
+      }
+    }
+  },
   "entity": {
     "climate": {
-      "gree": {
+      "sinclair_ac": {
         "state_attributes": {
           "fan_mode": {
             "state": {
@@ -19,7 +26,7 @@
   },
   "services": {
     "climate": {
-      "gree": {
+      "sinclair_ac": {
         "fan_modes": {
           "auto": "mdi:fan-auto",
           "low": "mdi:speedometer-slow",

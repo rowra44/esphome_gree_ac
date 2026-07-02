@@ -148,4 +148,3 @@ async def to_code(config):
             await cg.register_component(a_switch, conf)
             await switch.register_switch(a_switch, conf)
             cg.add(getattr(var, f"set_{s}")(a_switch))
-    cg.add(var.set_translation_key("gree"))
