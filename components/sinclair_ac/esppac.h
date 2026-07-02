@@ -25,9 +25,11 @@ static const uint8_t TEMPERATURE_THRESHOLD = 100;  // Maximum temperature the AC
 namespace fan_modes{
     const char* const FAN_AUTO  = "0 - Auto";
     const char* const FAN_LOW   = "1 - Low";
+    const char* const FAN_LOWMED   = "2 - LowMed";
     const char* const FAN_MED   = "2 - Medium";
-    const char* const FAN_HIGH  = "3 - High";
-    const char* const FAN_TURBO = "4 - Turbo";
+    const char* const FAN_MEDHIGH  = "3 - MedHigh";
+    const char* const FAN_HIGH  = "4 - High";
+    const char* const FAN_TURBO = "5 - Turbo";
 }
 
 /* this must be same as HORIZONTAL_SWING_OPTIONS in climate.py */
