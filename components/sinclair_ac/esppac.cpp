@@ -23,8 +23,13 @@ climate::ClimateTraits SinclairAC::traits()
     traits.set_supported_swing_modes({climate::CLIMATE_SWING_OFF, climate::CLIMATE_SWING_BOTH,
                                       climate::CLIMATE_SWING_VERTICAL, climate::CLIMATE_SWING_HORIZONTAL});
 
-    traits.set_supported_fan_modes({fan_modes::FAN_AUTO, fan_modes::FAN_LOW,
-                                  fan_modes::FAN_MED, fan_modes::FAN_HIGH});
+    traits.set_supported_fan_modes({
+      climate::CLIMATE_FAN_AUTO,
+      climate::CLIMATE_FAN_LOW,
+      climate::CLIMATE_FAN_MEDIUM,
+      climate::CLIMATE_FAN_HIGH,
+      climate::CLIMATE_FAN_QUIET,
+    });
 
     traits.set_supported_presets({
      climate::CLIMATE_PRESET_NONE,
