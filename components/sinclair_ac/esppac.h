@@ -32,12 +32,12 @@ struct FanModeConfig {
 };
 
 namespace fan_modes {
-    constexpr FanModeConfig FAN_AUTO     = { "Auto",     8, 0 };
-    constexpr FanModeConfig FAN_LOW      = { "Low",      9, 1 };
-    constexpr FanModeConfig FAN_LOWMED   = { "Low-medium",   10, 2 };
-    constexpr FanModeConfig FAN_MED      = { "Medium",   11, 2 };
-    constexpr FanModeConfig FAN_MEDHIGH  = { "Medium-high",  12, 3 };
-    constexpr FanModeConfig FAN_HIGH     = { "High",     13, 3 };
+    constexpr FanModeConfig FAN_AUTO     = { "0 - Auto",     8, 0 };
+    constexpr FanModeConfig FAN_LOW      = { "1 - Low",      9, 1 };
+    constexpr FanModeConfig FAN_LOWMED   = { "2 - Low-medium",   10, 2 };
+    constexpr FanModeConfig FAN_MED      = { "3 - Medium",   11, 2 };
+    constexpr FanModeConfig FAN_MEDHIGH  = { "4 - Medium-high",  12, 3 };
+    constexpr FanModeConfig FAN_HIGH     = { "5 - High",     13, 3 };
 
     constexpr std::array<FanModeConfig, 6> ALL_MODES = {
         FAN_AUTO, FAN_LOW, FAN_LOWMED, FAN_MED, FAN_MEDHIGH, FAN_HIGH
