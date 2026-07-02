@@ -1,0 +1,34 @@
+{
+  "entity": {
+    "climate": {
+      "gree": {
+        "state_attributes": {
+          "fan_mode": {
+            "state": {
+              "auto": "Auto",
+              "low": "Low",
+              "low-medium": "Low-Medium",
+              "medium": "Medium",
+              "medium-high": "Medium-High",
+              "high": "High"
+            }
+          }
+        }
+      }
+    }
+  },
+  "services": {
+    "climate": {
+      "gree": {
+        "fan_modes": {
+          "auto": "mdi:fan-auto",
+          "low": "mdi:speedometer-slow",
+          "low-medium": "mdi:fan-speed-2",
+          "medium": "mdi:speedometer-medium",
+          "medium-high": "mdi:fan-speed-3",
+          "high": "mdi:speedometer"
+        }
+      }
+    }
+  }
+}
