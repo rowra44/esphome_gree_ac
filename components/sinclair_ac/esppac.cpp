@@ -23,12 +23,6 @@ climate::ClimateTraits SinclairAC::traits()
     traits.set_supported_swing_modes({climate::CLIMATE_SWING_OFF, climate::CLIMATE_SWING_BOTH,
                                       climate::CLIMATE_SWING_VERTICAL, climate::CLIMATE_SWING_HORIZONTAL});
 
-    std::vector<std::string> custom_modes;
-    for (const auto& mode : fan_modes::ALL_MODES) {
-      custom_modes.push_back(mode.name);
-    }
-    traits.set_supported_custom_fan_modes(custom_modes);
-
     return traits;
 }
 
@@ -37,6 +31,14 @@ void SinclairAC::setup()
   // Initialize times
     this->init_time_ = millis();
     this->last_packet_sent_ = millis();
+
+    std::vector<const char*> custom_modes;
+    for (const auto& mode : fan_modes::ALL_MODES) {
+        custom_modes.push_back(mode.name);
+    }
+
+    // Call it directly on "this" (the Climate entity), NOT on the traits object
+    this->set_supported_custom_fan_modes(custom_modes);
 
     ESP_LOGI(TAG, "Sinclair AC component v%s starting...", VERSION);
 }
