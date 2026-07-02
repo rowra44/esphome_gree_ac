@@ -24,13 +24,13 @@ climate::ClimateTraits SinclairAC::traits()
                                       climate::CLIMATE_SWING_VERTICAL, climate::CLIMATE_SWING_HORIZONTAL});
 
    traits.set_supported_custom_fan_modes({
-      fan_modes::FAN_AUTO, 
-      fan_modes::FAN_LOW, 
-      fan_modes::FAN_LOWMED,
-      fan_modes::FAN_MED, 
-      fan_modes::FAN_MEDHIGH, 
-      fan_modes::FAN_HIGH,
-      fan_modes::FAN_TURBO
+      fan_modes::FAN_AUTO.name, 
+      fan_modes::FAN_LOW.name, 
+      fan_modes::FAN_LOWMED.name,
+      fan_modes::FAN_MED.name, 
+      fan_modes::FAN_MEDHIGH.name, 
+      fan_modes::FAN_HIGH.name,
+      fan_modes::FAN_TURBO.name
    });                                 
 
     return traits;

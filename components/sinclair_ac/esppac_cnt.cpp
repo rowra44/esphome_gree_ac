@@ -282,24 +282,24 @@ void SinclairACCNT::send_packet()
     {
         const char* custom_fan_mode = this->get_custom_fan_mode().c_str();
 
-        if (strcmp(custom_fan_mode, fan_modes::FAN_AUTO) == 0)
+        if (strcmp(custom_fan_mode, fan_modes::FAN_AUTO.name) == 0)
         {
-            fanSpeed1 = 0;
-            fanSpeed2 = 0;
+            fanSpeed1 = fan_modes::FAN_AUTO.sp1;
+            fanSpeed2 = fan_modes::FAN_AUTO.sp2;
             fanQuiet  = false;
             fanTurbo  = false;
         }
-        else if (strcmp(custom_fan_mode, fan_modes::FAN_LOW) == 0)
+        else if (strcmp(custom_fan_mode, fan_modes::FAN_LOW.name) == 0)
         {
-            fanSpeed1 = 1;
-            fanSpeed2 = 1;
+            fanSpeed1 = fan_modes::FAN_LOW.sp1;
+            fanSpeed2 = fan_modes::FAN_LOW.sp2;
             fanQuiet  = false;
             fanTurbo  = false;
         }
-        else if (strcmp(custom_fan_mode, fan_modes::FAN_LOWMED) == 0)
+        else if (strcmp(custom_fan_mode, fan_modes::FAN_LOWMED.name) == 0)
         {
-            fanSpeed1 = 10;
-            fanSpeed2 = 2;
+            fanSpeed1 = fan_modes::FAN_LOWMED.sp1;
+            fanSpeed2 = fan_modes::FAN_LOWMED.sp2;
             fanQuiet  = false;
             fanTurbo  = false;
         }
@@ -310,38 +310,38 @@ void SinclairACCNT::send_packet()
             fanQuiet  = true;
             fanTurbo  = false;
         } */
-        else if (strcmp(custom_fan_mode, fan_modes::FAN_MED) == 0)
+        else if (strcmp(custom_fan_mode, fan_modes::FAN_MED.name) == 0)
 	{
-            fanSpeed1 = 3;
-            fanSpeed2 = 2;
+            fanSpeed1 = fan_modes::FAN_MED.sp1;
+            fanSpeed2 = fan_modes::FAN_MED.sp2;
             fanQuiet  = false;
             fanTurbo  = false;
         }
-        else if (strcmp(custom_fan_mode, fan_modes::FAN_MEDHIGH) == 0)
+        else if (strcmp(custom_fan_mode, fan_modes::FAN_MEDHIGH.name) == 0)
         {
-            fanSpeed1 = 12;
-            fanSpeed2 = 3;
+            fanSpeed1 = fan_modes::FAN_MEDHIGH.sp1;
+            fanSpeed2 = fan_modes::FAN_MEDHIGH.sp2;
             fanQuiet  = false;
             fanTurbo  = false;
         }
-        else if (strcmp(custom_fan_mode, fan_modes::FAN_HIGH) == 0)
+        else if (strcmp(custom_fan_mode, fan_modes::FAN_HIGH.name) == 0)
         {
-            fanSpeed1 = 5;
-            fanSpeed2 = 3;
+            fanSpeed1 = fan_modes::FAN_HIGH.sp1;
+            fanSpeed2 = fan_modes::FAN_HIGH.sp2;
             fanQuiet  = false;
             fanTurbo  = false;
         }
-        else if (strcmp(custom_fan_mode, fan_modes::FAN_TURBO) == 0)
+        else if (strcmp(custom_fan_mode, fan_modes::FAN_TURBO.name) == 0)
         {
-            fanSpeed1 = 5;
-            fanSpeed2 = 3;
+            fanSpeed1 = fan_modes::FAN_TURBO.sp1;
+            fanSpeed2 = fan_modes::FAN_TURBO.sp2;
             fanQuiet  = false;
             fanTurbo  = true;
         }
         else
         {
-            fanSpeed1 = 0;
-            fanSpeed2 = 0;
+            fanSpeed1 = fan_modes::FAN_AUTO.sp1;
+            fanSpeed2 = fan_modes::FAN_AUTO.sp1;
             fanQuiet  = false;
             fanTurbo  = false;
         }
@@ -865,37 +865,43 @@ const char* SinclairACCNT::determine_fan_mode()
     
     /* we have extracted all the data, let's do the processing */
     
-    if (fanSpeed1 == 0 && fanSpeed2 == 0)
+    if (fanSpeed1 == fan_modes::FAN_TURBO.sp1 &&
+        fanSpeed2 == fan_modes::FAN_TURBO.sp2)
     {
-        return fan_modes::FAN_TURBO;
+        return fan_modes::FAN_TURBO.name;
     }
-    else if (fanSpeed1 == 1 && fanSpeed2 == 1)
+    else if (fanSpeed1 == fan_modes::FAN_LOW.sp1 &&
+        fanSpeed2 == fan_modes::FAN_LOW.sp2)
     {
-        return fan_modes::FAN_LOW;
+        return fan_modes::FAN_LOW.name;
     }
     /*else if (fanSpeed1 == 2 && fanSpeed2 == 2 && fanQuiet == false && fanTurbo == false)
     {
         return fan_modes::FAN_MEDL;
     }*/
-    else if (fanSpeed1 == 10 && fanSpeed2 == 2)
+    else if (fanSpeed1 == fan_modes::FAN_LOWMED.sp1 &&
+        fanSpeed2 == fan_modes::FAN_LOWMED.sp2)
     {
-        return fan_modes::FAN_LOWMED;
+        return fan_modes::FAN_LOWMED.name;
     }
-    else if (fanSpeed1 == 3 && fanSpeed2 == 2)
+    else if (fanSpeed1 == fan_modes::FAN_MED.sp1 &&
+        fanSpeed2 == fan_modes::FAN_MED.sp2)
     {
-        return fan_modes::FAN_MED;
+        return fan_modes::FAN_MED.name;
     }
     /*else if (fanSpeed1 == 4 && fanSpeed2 == 3 && fanQuiet == false && fanTurbo == false)
     {
         return fan_modes::FAN_MEDH;
     }*/
-    else if (fanSpeed1 == 12 && fanSpeed2 == 3)
+    else if (fanSpeed1 == fan_modes::FAN_MEDHIGH.sp1 &&
+        fanSpeed2 == fan_modes::FAN_MEDHIGH.sp2)
     {
-        return fan_modes::FAN_MEDHIGH;
+        return fan_modes::FAN_MEDHIGH.name;
     }
-    else if (fanSpeed1 == 5 && fanSpeed2 == 3)
+    else if (fanSpeed1 == fan_modes::FAN_HIGH.sp1 &&
+        fanSpeed2 == fan_modes::FAN_HIGH.sp2)
     {
-        return fan_modes::FAN_HIGH;
+        return fan_modes::FAN_HIGH.name;
     }
     /*else if (fanSpeed1 == 5 && fanSpeed2 == 3 && fanQuiet == false && fanTurbo == true )
     {
@@ -908,7 +914,7 @@ const char* SinclairACCNT::determine_fan_mode()
     else 
     {
         ESP_LOGW(TAG, "Received unknown fan mode: fanSpeed1=%d, fansSpeed2=%d", fanSpeed1, fanSpeed2);
-        return fan_modes::FAN_AUTO;
+        return fan_modes::FAN_AUTO.name;
     }
     
 }
