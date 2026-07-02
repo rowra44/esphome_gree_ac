@@ -23,6 +23,16 @@ climate::ClimateTraits SinclairAC::traits()
     traits.set_supported_swing_modes({climate::CLIMATE_SWING_OFF, climate::CLIMATE_SWING_BOTH,
                                       climate::CLIMATE_SWING_VERTICAL, climate::CLIMATE_SWING_HORIZONTAL});
 
+   traits.set_supported_custom_fan_modes({
+      fan_modes::FAN_AUTO, 
+      fan_modes::FAN_LOW, 
+      fan_modes::FAN_LOWMED,
+      fan_modes::FAN_MED, 
+      fan_modes::FAN_MEDHIGH, 
+      fan_modes::FAN_HIGH,
+      fan_modes::FAN_TURBO
+   });                                 
+
     return traits;
 }
 
@@ -31,8 +41,6 @@ void SinclairAC::setup()
   // Initialize times
     this->init_time_ = millis();
     this->last_packet_sent_ = millis();
-    this->set_supported_custom_fan_modes({fan_modes::FAN_AUTO, fan_modes::FAN_LOW, fan_modes::FAN_LOWMED,
-                                          fan_modes::FAN_MED, fan_modes::FAN_MEDHIGH, fan_modes::FAN_HIGH, fan_modes::FAN_TURBO});
 
     ESP_LOGI(TAG, "Sinclair AC component v%s starting...", VERSION);
 }
