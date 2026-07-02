@@ -873,7 +873,7 @@ climate::ClimateFanMode SinclairACCNT::determine_fan_mode()
     }*/
     else 
     {
-        ESP_LOGW(TAG, "Received unknown fan mode");
+        ESP_LOGW(TAG, "Received unknown fan mode: fanSpeed1=%d, fansSpeed2=%d", fanSpeed1, fanSpeed2);
         return climate::CLIMATE_FAN_AUTO;
     }
     
