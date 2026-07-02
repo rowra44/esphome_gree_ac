@@ -55,6 +55,20 @@ namespace protocol {
     static const uint8_t REPORT_FAN_TURBO_BYTE = 6;
     static const uint8_t REPORT_FAN_TURBO_MASK = 0b00000001;
 
+    /* Fan speed values
+       These values were "read out" by cycling through all settins via
+       the IR remote. This may differ from model to model
+    */
+    const int matrix[6][2] = {
+        {8, 0},
+        {9, 1},
+        {10, 2},
+    };
+
+    static const uint8_t FAN_SPD_VALS = {
+      {}
+    };
+
     static const uint8_t REPORT_FAN_MODE_MASK = 0b00000011;
 
     static const uint8_t REPORT_TEMP_SET_BYTE  = 5;

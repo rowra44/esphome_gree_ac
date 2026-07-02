@@ -22,12 +22,33 @@ static const float TEMPERATURE_STEP = 1.0;   // Steps the temperature can be set
 static const float TEMPERATURE_TOLERANCE = 2;  // The tolerance to allow when checking the climate state
 static const uint8_t TEMPERATURE_THRESHOLD = 100;  // Maximum temperature the AC can report (formally 119.5 for sinclair protocol, but 100 is impossible, soo...)
 
-namespace fan_modes{
+/*namespace fan_modes{
     const char* const FAN_AUTO  = "0 - Auto";
     const char* const FAN_LOW   = "1 - Low";
     const char* const FAN_MED   = "2 - Medium";
     const char* const FAN_HIGH  = "3 - High";
-}
+}*/
+
+enum ClimateFanMode : uint8_t {
+  /// The fan mode is set to On
+  CLIMATE_FAN_ON = 0,
+  /// The fan mode is set to Off
+  CLIMATE_FAN_OFF = 1,
+  /// The fan mode is set to Auto
+  CLIMATE_FAN_AUTO = 2,
+  /// The fan mode is set to Low
+  CLIMATE_FAN_LOW = 3,
+  /// The fan mode is set to LowMedium
+  CLIMATE_FAN_LOW_MEDIUM = 4,
+  /// The fan mode is set to Medium
+  CLIMATE_FAN_MEDIUM = 5,
+  /// The fan mode is set to High
+  CLIMATE_FAN_MEDIUM_HIGH = 6,
+  /// The fan mode is set to High
+  CLIMATE_FAN_HIGH = 7,
+  /// The fan mode is set to Quiet
+  CLIMATE_FAN_QUIET = 9,  // Update ClimateFanModeMask in climate_traits.h if adding values after this
+};
 
 /* this must be same as HORIZONTAL_SWING_OPTIONS in climate.py */
 namespace horizontal_swing_options{
