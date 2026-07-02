@@ -283,7 +283,7 @@ void SinclairACCNT::send_packet()
         const char* custom_fan_mode = this->get_custom_fan_mode().c_str();
 
         for (const auto& mode : fan_modes::ALL_MODES) {
-            if (strcmp(current_mode, mode.name) == 0) {
+            if (strcmp(custom_fan_mode, mode.name) == 0) {
                 fanSpeed1 = mode.sp1;
                 fanSpeed2 = mode.sp2;
                 fanQuiet  = false;
