@@ -12,8 +12,6 @@ climate::ClimateTraits SinclairAC::traits()
 {
     auto traits = climate::ClimateTraits();
 
-    traits.set_translation_key("gree");
-
     traits.set_feature_flags(climate::CLIMATE_SUPPORTS_CURRENT_TEMPERATURE);
     traits.set_visual_min_temperature(MIN_TEMPERATURE);
     traits.set_visual_max_temperature(MAX_TEMPERATURE);
@@ -44,6 +42,8 @@ void SinclairAC::setup()
     for (const auto& mode : fan_modes::ALL_MODES) {
         custom_modes.push_back(mode.name);
     }
+
+    this->set_translation_key("gree");
 
     // Call it directly on "this" (the Climate entity), NOT on the traits object
     this->set_supported_custom_fan_modes(custom_modes);
