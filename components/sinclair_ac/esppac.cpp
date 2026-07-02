@@ -24,7 +24,7 @@ climate::ClimateTraits SinclairAC::traits()
                                       climate::CLIMATE_SWING_VERTICAL, climate::CLIMATE_SWING_HORIZONTAL});
 
     traits.set_support_fan_modes({fan_modes::FAN_AUTO, fan_modes::FAN_LOW,
-                                  fan_modes::FAN_MED, fan_modes::FAN_HIGH, fan_modes::FAN_TURBO});
+                                  fan_modes::FAN_MED, fan_modes::FAN_HIGH});
 
     traits.set_supported_presets({
      climate::CLIMATE_PRESET_NONE,
