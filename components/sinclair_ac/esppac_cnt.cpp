@@ -296,7 +296,7 @@ void SinclairACCNT::send_packet()
                 fanSpeed2 = mode.sp2;
                 fanQuiet  = false;
                 //fanTurbo  = false;
-                if (mode == FAN_QUIET) {
+                if (mode == fan_modes::FAN_QUIET) {
                   packet[protocol::REPORT_FAN_QUIET_BYTE] |= protocol::REPORT_FAN_QUIET_MASK;
                 }                
                 break;
