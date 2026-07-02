@@ -295,7 +295,6 @@ void SinclairACCNT::send_packet()
             fanSpeed2 = 1;
             fanQuiet  = false;
             fanTurbo  = false;
-            //packet[protocol::REPORT_FAN_SPD2_BYTE] |= 1;
         }
         else if (strcmp(custom_fan_mode, fan_modes::FAN_LOWMED) == 0)
         {
@@ -303,7 +302,6 @@ void SinclairACCNT::send_packet()
             fanSpeed2 = 2;
             fanQuiet  = false;
             fanTurbo  = false;
-            //packet[protocol::REPORT_FAN_SPD2_BYTE] |= 2;
         }
 /*        else if (strcmp(custom_fan_mode, fan_modes::FAN_QUIET) == 0)
         {
@@ -318,7 +316,6 @@ void SinclairACCNT::send_packet()
             fanSpeed2 = 2;
             fanQuiet  = false;
             fanTurbo  = false;
-	    //packet[protocol::REPORT_FAN_SPD2_BYTE] |= 3;
         }
         else if (strcmp(custom_fan_mode, fan_modes::FAN_MEDHIGH) == 0)
         {
@@ -326,7 +323,6 @@ void SinclairACCNT::send_packet()
             fanSpeed2 = 3;
             fanQuiet  = false;
             fanTurbo  = false;
-            //packet[protocol::REPORT_FAN_SPD2_BYTE] |= 4;
         }
         else if (strcmp(custom_fan_mode, fan_modes::FAN_HIGH) == 0)
         {
@@ -334,7 +330,6 @@ void SinclairACCNT::send_packet()
             fanSpeed2 = 3;
             fanQuiet  = false;
             fanTurbo  = false;
-	    //packet[protocol::REPORT_FAN_SPD2_BYTE] |= 5;
         }
         else if (strcmp(custom_fan_mode, fan_modes::FAN_TURBO) == 0)
         {
@@ -882,6 +877,10 @@ const char* SinclairACCNT::determine_fan_mode()
     {
         return fan_modes::FAN_MEDL;
     }*/
+    else if (fanSpeed1 == 10 && fanSpeed2 == 2)
+    {
+        return fan_modes::FAN_LOWMED;
+    }
     else if (fanSpeed1 == 3 && fanSpeed2 == 2)
     {
         return fan_modes::FAN_MED;
@@ -890,6 +889,10 @@ const char* SinclairACCNT::determine_fan_mode()
     {
         return fan_modes::FAN_MEDH;
     }*/
+    else if (fanSpeed1 == 12 && fanSpeed2 == 3)
+    {
+        return fan_modes::FAN_MEDHIGH;
+    }
     else if (fanSpeed1 == 5 && fanSpeed2 == 3)
     {
         return fan_modes::FAN_HIGH;
