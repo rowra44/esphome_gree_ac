@@ -285,7 +285,7 @@ void SinclairACCNT::send_packet()
     uint8_t fanSpeed1 = 0;
     uint8_t fanSpeed2 = 0;
     bool    fanQuiet  = false;
-    bool    fanTurbo  = false;
+    //bool    fanTurbo  = false;
     if (this->has_custom_fan_mode())
     {
         const char* custom_fan_mode = this->get_custom_fan_mode().c_str();
@@ -295,7 +295,10 @@ void SinclairACCNT::send_packet()
                 fanSpeed1 = mode.sp1;
                 fanSpeed2 = mode.sp2;
                 fanQuiet  = false;
-                fanTurbo  = false;                
+                //fanTurbo  = false;
+                if (mode == FAN_QUIET) {
+                  packet[protocol::REPORT_FAN_QUIET_BYTE] |= protocol::REPORT_FAN_QUIET_MASK;
+                }                
                 break;
             }
         }
