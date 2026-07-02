@@ -27,7 +27,6 @@ namespace fan_modes{
     const char* const FAN_LOW   = "1 - Low";
     const char* const FAN_MED   = "2 - Medium";
     const char* const FAN_HIGH  = "3 - High";
-    const char* const FAN_TURBO = "4 - Turbo";
 }
 
 /* this must be same as HORIZONTAL_SWING_OPTIONS in climate.py */
