@@ -137,6 +137,14 @@ void SinclairACCNT::control(const climate::ClimateCall &call)
         this->set_custom_fan_mode_(call.get_custom_fan_mode());
     }
 
+    if (call.get_preset().has_value())
+    {
+        ESP_LOGV(TAG, "Requested preset change");
+        reqmodechange = true;
+        this->update_ = ACUpdate::UpdateStart;
+        this->preset = call.get_preset().value();
+    }
+
     if (call.get_swing_mode().has_value())
     {
         ESP_LOGV(TAG, "Requested swing mode change");
@@ -296,6 +304,20 @@ void SinclairACCNT::send_packet()
     packet[protocol::REPORT_FAN_SPD1_BYTE] |= (fanSpeed1 << protocol::REPORT_FAN_SPD1_POS);
     packet[protocol::REPORT_FAN_SPD2_BYTE] |= (fanSpeed2 << protocol::REPORT_FAN_SPD2_POS);
     
+   /* PRESET ------------------------------------------------------------------------------------ */
+   /* In HA, boost and sleep are presets, however in Gree's domain, they're merely a fan profile
+      and a boolean switch to flip over.
+   */
+    if (this->preset == climate::CLIMATE_PRESET_BOOST)
+    {
+        fanSpeed1 = 5;
+        fanSpeed2 = 3;
+        packet[protocol::REPORT_FAN_TURBO_BYTE] |= protocol::REPORT_FAN_TURBO_MASK;  
+    }
+    if (this->preset == climate::CLIMATE_PRESET_SLEEP) {
+        packet[protocol::REPORT_SLEEP_BYTE] |= protocol::REPORT_SLEEP_MASK;
+    }
+
     /* VERTICAL SWING --------------------------------------------------------------------------- */
     uint8_t mode_vertical_swing = protocol::REPORT_VSWING_OFF;
     if (this->vertical_swing_state_ == vertical_swing_options::OFF)
@@ -658,6 +680,12 @@ bool SinclairACCNT::processUnitReport()
         hasChanged = true;
     }
     this->set_custom_fan_mode_(newFanMode);
+
+    climate::ClimatePreset newPreset = determine_preset();
+    if (this->preset != newPreset)
+      hasChanged = true;
+    this->preset = newPreset;
+
     
     //float newTargetTemperature = (float)(((this->serialProcess_.data[protocol::REPORT_TEMP_SET_BYTE] & protocol::REPORT_TEMP_SET_MASK) >> protocol::REPORT_TEMP_SET_POS)
      //   + protocol::REPORT_TEMP_SET_OFF);
@@ -788,6 +816,19 @@ const char* SinclairACCNT::determine_fan_mode()
     ESP_LOGW(TAG, "Received unknown fan mode: fanSpeed1=%d, fansSpeed2=%d", fanSpeed1, fanSpeed2);
     return fan_modes::FAN_AUTO.name;
     
+}
+
+climate::ClimatePreset SinclairACCNT::determine_preset()
+{
+    bool fanTurbo = (this->serialProcess_.data[protocol::REPORT_FAN_TURBO_BYTE] & protocol::REPORT_FAN_TURBO_MASK) != 0;
+    bool sleep = (this->serialProcess_.data[protocol::REPORT_SLEEP_BYTE] & protocol::REPORT_SLEEP_MASK) != 0;
+
+    if (fanTurbo)
+        return climate::CLIMATE_PRESET_BOOST;
+    else if (sleep)
+        return climate::CLIMATE_PRESET_SLEEP;
+    else
+        return climate::CLIMATE_PRESET_NONE;
 }
 
 std::string SinclairACCNT::determine_vertical_swing()

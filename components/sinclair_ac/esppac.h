@@ -37,10 +37,9 @@ namespace fan_modes {
     constexpr FanModeConfig FAN_MED      = { "medium",   11, 2 };
     constexpr FanModeConfig FAN_MEDHIGH  = { "medium-high",  12, 3 };
     constexpr FanModeConfig FAN_HIGH     = { "high",     13, 3 };
-    //constexpr FanModeConfig FAN_TURBO    = { "turbo",    5, 3 }; 
 
     constexpr std::array<FanModeConfig, 6> ALL_MODES = {
-        FAN_AUTO, FAN_LOW, FAN_LOWMED, FAN_MED, FAN_MEDHIGH, FAN_HIGH//, FAN_TURBO
+        FAN_AUTO, FAN_LOW, FAN_LOWMED, FAN_MED, FAN_MEDHIGH, FAN_HIGH
     };
 }
 
