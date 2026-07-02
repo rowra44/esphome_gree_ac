@@ -23,15 +23,11 @@ climate::ClimateTraits SinclairAC::traits()
     traits.set_supported_swing_modes({climate::CLIMATE_SWING_OFF, climate::CLIMATE_SWING_BOTH,
                                       climate::CLIMATE_SWING_VERTICAL, climate::CLIMATE_SWING_HORIZONTAL});
 
-   traits.set_supported_custom_fan_modes({
-      fan_modes::FAN_AUTO.name, 
-      fan_modes::FAN_LOW.name, 
-      fan_modes::FAN_LOWMED.name,
-      fan_modes::FAN_MED.name, 
-      fan_modes::FAN_MEDHIGH.name, 
-      fan_modes::FAN_HIGH.name,
-      fan_modes::FAN_TURBO.name
-   });                                 
+    std::vector<std::string> custom_modes;
+    for (const auto& mode : fan_modes::ALL_MODES) {
+      custom_modes.push_back(mode.name);
+    }
+    traits.set_supported_custom_fan_modes(custom_modes);
 
     return traits;
 }

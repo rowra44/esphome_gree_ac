@@ -1,6 +1,7 @@
 // based on: https://github.com/DomiStyle/esphome-panasonic-ac
 #pragma once
 
+#include <array>
 #include "esphome/components/climate/climate.h"
 #include "esphome/components/select/select.h"
 #include "esphome/components/sensor/sensor.h"
@@ -22,15 +23,6 @@ static const float TEMPERATURE_STEP = 1.0;   // Steps the temperature can be set
 static const float TEMPERATURE_TOLERANCE = 2;  // The tolerance to allow when checking the climate state
 static const uint8_t TEMPERATURE_THRESHOLD = 100;  // Maximum temperature the AC can report (formally 119.5 for sinclair protocol, but 100 is impossible, soo...)
 
-/*namespace fan_modes{
-    const char* const FAN_AUTO  = "0 - Auto";
-    const char* const FAN_LOW   = "1 - Low";
-    const char* const FAN_LOWMED   = "2 - LowMed";
-    const char* const FAN_MED   = "3 - Medium";
-    const char* const FAN_MEDHIGH  = "4 - MedHigh";
-    const char* const FAN_HIGH  = "5 - High";
-    const char* const FAN_TURBO = "6 - Turbo";
-}*/
 struct FanModeConfig {
     const char* name;
     int sp1;
@@ -39,13 +31,17 @@ struct FanModeConfig {
 
 // 2. Wrap them up in your namespace as constexpr instances
 namespace fan_modes {
-    constexpr FanModeConfig FAN_AUTO     = { "0 - Auto",     8, 0 };
-    constexpr FanModeConfig FAN_LOW      = { "1 - Low",      9, 1 };
-    constexpr FanModeConfig FAN_LOWMED   = { "2 - LowMed",   10, 2 }; // Speed level 2
-    constexpr FanModeConfig FAN_MED      = { "3 - Medium",   11, 2 }; // Speed level 3
-    constexpr FanModeConfig FAN_MEDHIGH  = { "4 - MedHigh",  12, 3 }; // Speed level 4
-    constexpr FanModeConfig FAN_HIGH     = { "5 - High",     13, 3 }; // Speed level 5
-    constexpr FanModeConfig FAN_TURBO    = { "6 - Turbo",    5, 3 }; 
+    constexpr FanModeConfig FAN_AUTO     = { "auto",     8, 0 };
+    constexpr FanModeConfig FAN_LOW      = { "low",      9, 1 };
+    constexpr FanModeConfig FAN_LOWMED   = { "low-medium",   10, 2 };
+    constexpr FanModeConfig FAN_MED      = { "medium",   11, 2 };
+    constexpr FanModeConfig FAN_MEDHIGH  = { "medium-high",  12, 3 };
+    constexpr FanModeConfig FAN_HIGH     = { "high",     13, 3 };
+    constexpr FanModeConfig FAN_TURBO    = { "turbo",    5, 3 }; 
+    
+    constexpr std::array<FanModeConfig, 7> ALL_MODES = {
+        FAN_AUTO, FAN_LOW, FAN_LOWMED, FAN_MED, FAN_MEDHIGH, FAN_HIGH, FAN_TURBO
+    };
 }
 
 /* this must be same as HORIZONTAL_SWING_OPTIONS in climate.py */
