@@ -883,7 +883,7 @@ const char* SinclairACCNT::determine_fan_mode()
     }*/
     else if (fanSpeed1 == 3 && fanSpeed2 == 2)
     {
-        return fan_modes::FAN_MEDIUM;
+        return fan_modes::FAN_MED;
     }
     /*else if (fanSpeed1 == 4 && fanSpeed2 == 3 && fanQuiet == false && fanTurbo == false)
     {
