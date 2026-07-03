@@ -26,23 +26,31 @@ static const uint8_t TEMPERATURE_THRESHOLD = 100;  // Maximum temperature the AC
 /* Fan modes setup - because different units may use slightly different values
 */
 struct FanModeConfig {
-    const char* name;
+    climate::ClimateFanMode name;
     int sp1;
     int sp2;
 };
 
 namespace fan_modes {
-    constexpr FanModeConfig FAN_AUTO     = { "0 - Auto",     8, 0 };
-    constexpr FanModeConfig FAN_LOW      = { "1 - Low",      9, 1 };
-    constexpr FanModeConfig FAN_LOWMED   = { "2 - Low-medium",   10, 2 };
-    constexpr FanModeConfig FAN_MED      = { "3 - Medium",   11, 2 };
-    constexpr FanModeConfig FAN_MEDHIGH  = { "4 - Medium-high",  12, 3 };
-    constexpr FanModeConfig FAN_HIGH     = { "5 - High",     13, 3 };
-    constexpr FanModeConfig FAN_QUIET    = { "6 - Quiet",      1, 1 };
+    constexpr FanModeConfig FAN_AUTO     = { climate::CLIMATE_FAN_AUTO,     0, 0 };
+    constexpr FanModeConfig FAN_LOW      = { climate::CLIMATE_FAN_LOW,      1, 1 };
+    constexpr FanModeConfig FAN_MED      = { climate::CLIMATE_FAN_MEDIUM,   3, 2 };
+    constexpr FanModeConfig FAN_HIGH     = { climate::CLIMATE_FAN_HIGH,     5, 3 };
+    constexpr FanModeConfig FAN_QUIET    = { climate::CLIMATE_FAN_QUIET,    1, 1 };
 
-    constexpr std::array<FanModeConfig, 7> ALL_MODES = {
-        FAN_AUTO, FAN_LOW, FAN_LOWMED, FAN_MED, FAN_MEDHIGH, FAN_HIGH, FAN_QUIET
+    constexpr std::array<FanModeConfig, 5> ALL_MODES = {
+        FAN_AUTO, FAN_LOW, FAN_MED, FAN_HIGH, FAN_QUIET
     };
+
+    constexpr FanModeConfig get(climate::ClimateFanMode mode) {
+        for (const auto& config : ALL_MODES) {
+            if (config.name == mode) {
+                return config;
+            }
+        }
+        
+        return { esphome::climate::CLIMATE_FAN_AUTO, 0, 0 };
+    }
 }
 
 /* this must be same as HORIZONTAL_SWING_OPTIONS in climate.py */

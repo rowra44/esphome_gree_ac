@@ -285,23 +285,12 @@ void SinclairACCNT::send_packet()
     uint8_t fanSpeed1 = 0;
     uint8_t fanSpeed2 = 0;
     bool    fanQuiet  = false;
-    //bool    fanTurbo  = false;
-    if (this->has_custom_fan_mode())
-    {
-        const char* custom_fan_mode = this->get_custom_fan_mode().c_str();
 
-        for (const auto& mode : fan_modes::ALL_MODES) {
-            if (strcmp(custom_fan_mode, mode.name) == 0) {
-                fanSpeed1 = mode.sp1;
-                fanSpeed2 = mode.sp2;
-                fanQuiet  = false;
-                //fanTurbo  = false;
-                if (strcmp(custom_fan_mode, fan_modes::FAN_QUIET.name) == 0) {
-                  packet[protocol::REPORT_FAN_QUIET_BYTE] |= protocol::REPORT_FAN_QUIET_MASK;
-                }                
-                break;
-            }
-        }
+    FanModeConfig fmc& = fan_modes::get(this->fan_mode);
+    fanSpeed1 = fmc.sp1;
+    fanSpeed2 = fmc.sp2;
+    if (fmc.name == climate::CLIMATE_FAN_QUIET) {
+      packet[protocol::REPORT_FAN_QUIET_BYTE] |= protocol::REPORT_FAN_QUIET_MASK;
     }
 
     packet[protocol::REPORT_FAN_SPD1_BYTE] |= (fanSpeed1 << protocol::REPORT_FAN_SPD1_POS);
@@ -673,7 +662,7 @@ bool SinclairACCNT::processUnitReport()
     if (this->mode != newMode) hasChanged = true;
     this->mode = newMode;
 
-    const char* newFanMode = determine_fan_mode();
+    const ClimateFanMode* newFanMode = determine_fan_mode();
     if (this->has_custom_fan_mode())
     {
         if (strcmp(this->get_custom_fan_mode().c_str(), newFanMode) != 0) hasChanged = true;;
@@ -802,7 +791,7 @@ climate::ClimateMode SinclairACCNT::determine_mode()
     }
 }
 
-const char* SinclairACCNT::determine_fan_mode()
+climate::ClimateFanMode SinclairACCNT::determine_fan_mode()
 {
     /* fan setting has quite complex representation in the packet, brace for it */
     uint8_t fanSpeed1 = (this->serialProcess_.data[protocol::REPORT_FAN_SPD1_BYTE]  & protocol::REPORT_FAN_SPD1_MASK) >> protocol::REPORT_FAN_SPD1_POS;

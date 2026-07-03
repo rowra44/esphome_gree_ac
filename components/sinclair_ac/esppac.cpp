@@ -27,7 +27,11 @@ climate::ClimateTraits SinclairAC::traits()
      climate::CLIMATE_PRESET_NONE,
      climate::CLIMATE_PRESET_BOOST,
      climate::CLIMATE_PRESET_SLEEP
-    });        
+    });
+    
+    for (const auto& mode : fan_modes::ALL_MODES) {
+        traits.add_supported_fan_mode(mode.name);
+    }
 
     return traits;
 }
@@ -37,11 +41,6 @@ void SinclairAC::setup()
   // Initialize times
     this->init_time_ = millis();
     this->last_packet_sent_ = millis();
-
-    std::vector<const char*> custom_modes;
-    for (const auto& mode : fan_modes::ALL_MODES) {
-        custom_modes.push_back(mode.name);
-    }
 
     // Call it directly on "this" (the Climate entity), NOT on the traits object
     this->set_supported_custom_fan_modes(custom_modes);
