@@ -37,14 +37,26 @@ namespace fan_modes {
     constexpr FanModeConfig FAN_MED      = { climate::CLIMATE_FAN_MEDIUM,   3, 2 };
     constexpr FanModeConfig FAN_HIGH     = { climate::CLIMATE_FAN_HIGH,     5, 3 };
     constexpr FanModeConfig FAN_QUIET    = { climate::CLIMATE_FAN_QUIET,    1, 1 };
+    // Just here for declarative purposes / config, to be used in presets
+    constexpr FanModeConfig FAN_BOOST    = { climate::CLIMATE_FAN_HIGH,     5, 3 };
 
     constexpr std::array<FanModeConfig, 5> ALL_MODES = {
         FAN_AUTO, FAN_LOW, FAN_MED, FAN_HIGH, FAN_QUIET
     };
 
-    constexpr FanModeConfig get(climate::ClimateFanMode mode) {
+    constexpr FanModeConfig get_from_name(climate::ClimateFanMode mode) {
         for (const auto& config : ALL_MODES) {
             if (config.name == mode) {
+                return config;
+            }
+        }
+
+        return { esphome::climate::CLIMATE_FAN_AUTO, 0, 0 };
+    }
+
+    constexpr FanModeConfig get_from_speed(uint8_t fanSpeed1, uint8_t fanSpeed2) {
+        for (const auto& config : ALL_MODES) {
+            if (config.sp1 == fanSpeed1 && config.sp2 == fanSpeed2) {
                 return config;
             }
         }

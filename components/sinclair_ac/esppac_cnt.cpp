@@ -282,20 +282,14 @@ void SinclairACCNT::send_packet()
 
     /* FAN SPEED --------------------------------------------------------------------------- */
     /* below will default to AUTO */
-    uint8_t fanSpeed1 = 0;
-    uint8_t fanSpeed2 = 0;
-    bool    fanQuiet  = false;
-
-    fan_modes::FanModeConfig fmc = fan_modes::get(
+    fan_modes::FanModeConfig fmc = fan_modes::get_from_name(
         this->fan_mode.value_or(climate::CLIMATE_FAN_AUTO));
-    fanSpeed1 = fmc.sp1;
-    fanSpeed2 = fmc.sp2;
     if (fmc.name == climate::CLIMATE_FAN_QUIET) {
       packet[protocol::REPORT_FAN_QUIET_BYTE] |= protocol::REPORT_FAN_QUIET_MASK;
     }
 
-    packet[protocol::REPORT_FAN_SPD1_BYTE] |= (fanSpeed1 << protocol::REPORT_FAN_SPD1_POS);
-    packet[protocol::REPORT_FAN_SPD2_BYTE] |= (fanSpeed2 << protocol::REPORT_FAN_SPD2_POS);
+    packet[protocol::REPORT_FAN_SPD1_BYTE] |= (fmc.sp1 << protocol::REPORT_FAN_SPD1_POS);
+    packet[protocol::REPORT_FAN_SPD2_BYTE] |= (fmc.sp2 << protocol::REPORT_FAN_SPD2_POS);
     
    /* PRESET ------------------------------------------------------------------------------------ */
    /* In HA, boost and sleep are presets, however in Gree's domain, they're merely a fan profile
@@ -303,11 +297,11 @@ void SinclairACCNT::send_packet()
    */
     if (this->preset == climate::CLIMATE_PRESET_BOOST)
     {
-        fanSpeed1 = 5;
-        fanSpeed2 = 3;
+        fanSpeed1 = fan_modes::FAN_BOOST.sp1;
+        fanSpeed2 = fan_modes::FAN_BOOST.sp2;
         packet[protocol::REPORT_FAN_TURBO_BYTE] |= protocol::REPORT_FAN_TURBO_MASK;  
     }
-    if (this->preset == climate::CLIMATE_PRESET_SLEEP) {
+    else if (this->preset == climate::CLIMATE_PRESET_SLEEP) {
         packet[protocol::REPORT_SLEEP_BYTE] |= protocol::REPORT_SLEEP_MASK;
     }
 
@@ -671,8 +665,9 @@ bool SinclairACCNT::processUnitReport()
     this->fan_mode = newFanMode;
 
     climate::ClimatePreset newPreset = determine_preset();
-    if (this->preset != newPreset)
+    if (this->preset != newPreset) {
       hasChanged = true;
+    }
     this->preset = newPreset;
 
     
@@ -795,12 +790,8 @@ climate::ClimateFanMode SinclairACCNT::determine_fan_mode()
     uint8_t fanSpeed2 = (this->serialProcess_.data[protocol::REPORT_FAN_SPD2_BYTE]  & protocol::REPORT_FAN_SPD2_MASK) >> protocol::REPORT_FAN_SPD2_POS;
     bool fanQuiet  = (this->serialProcess_.data[protocol::REPORT_FAN_QUIET_BYTE] & protocol::REPORT_FAN_QUIET_MASK) != 0;
 
-    for (const auto& mode : fan_modes::ALL_MODES) {
-       if (fanSpeed1 == mode.sp1 && fanSpeed2 == mode.sp2) {
-         return mode.name;                
-         break;
-       }
-    }
+    fan_modes::FanModeConfig fanMode = fan_modes::get_from_speed(fanSpeed1, fanSpeed2);
+    return fanMode.name;    
 
     ESP_LOGW(TAG, "Received unknown fan mode: fanSpeed1=%d, fansSpeed2=%d", fanSpeed1, fanSpeed2);
     return fan_modes::FAN_AUTO.name;
