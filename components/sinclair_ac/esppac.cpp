@@ -42,9 +42,6 @@ void SinclairAC::setup()
     this->init_time_ = millis();
     this->last_packet_sent_ = millis();
 
-    // Call it directly on "this" (the Climate entity), NOT on the traits object
-    this->set_supported_custom_fan_modes(custom_modes);
-
     ESP_LOGI(TAG, "Sinclair AC component v%s starting...", VERSION);
 }
 

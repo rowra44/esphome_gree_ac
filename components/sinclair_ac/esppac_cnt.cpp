@@ -286,7 +286,7 @@ void SinclairACCNT::send_packet()
     uint8_t fanSpeed2 = 0;
     bool    fanQuiet  = false;
 
-    FanModeConfig fmc& = fan_modes::get(this->fan_mode);
+    fan_modes::FanModeConfig fmc = fan_modes::get(this->fan_mode);
     fanSpeed1 = fmc.sp1;
     fanSpeed2 = fmc.sp2;
     if (fmc.name == climate::CLIMATE_FAN_QUIET) {
