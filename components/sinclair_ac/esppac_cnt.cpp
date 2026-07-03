@@ -297,9 +297,10 @@ void SinclairACCNT::send_packet()
    */
     if (this->preset == climate::CLIMATE_PRESET_BOOST)
     {
-        fanSpeed1 = fan_modes::FAN_BOOST.sp1;
-        fanSpeed2 = fan_modes::FAN_BOOST.sp2;
-        packet[protocol::REPORT_FAN_TURBO_BYTE] |= protocol::REPORT_FAN_TURBO_MASK;  
+        packet[protocol::REPORT_FAN_TURBO_BYTE] |= protocol::REPORT_FAN_TURBO_MASK;
+        packet[protocol::REPORT_FAN_SPD1_BYTE] |= (fan_modes::FAN_BOOST.sp1 << protocol::REPORT_FAN_SPD1_POS);
+        packet[protocol::REPORT_FAN_SPD2_BYTE] |= (fan_modes::FAN_BOOST.sp2 << protocol::REPORT_FAN_SPD2_POS);
+  
     }
     else if (this->preset == climate::CLIMATE_PRESET_SLEEP) {
         packet[protocol::REPORT_SLEEP_BYTE] |= protocol::REPORT_SLEEP_MASK;
