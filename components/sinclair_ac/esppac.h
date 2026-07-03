@@ -25,13 +25,13 @@ static const uint8_t TEMPERATURE_THRESHOLD = 100;  // Maximum temperature the AC
 
 /* Fan modes setup - because different units may use slightly different values
 */
-struct FanModeConfig {
-    climate::ClimateFanMode name;
-    int sp1;
-    int sp2;
-};
-
 namespace fan_modes {
+    struct FanModeConfig {
+       climate::ClimateFanMode name;
+       int sp1;
+       int sp2;
+    };
+
     constexpr FanModeConfig FAN_AUTO     = { climate::CLIMATE_FAN_AUTO,     0, 0 };
     constexpr FanModeConfig FAN_LOW      = { climate::CLIMATE_FAN_LOW,      1, 1 };
     constexpr FanModeConfig FAN_MED      = { climate::CLIMATE_FAN_MEDIUM,   3, 2 };
@@ -48,7 +48,7 @@ namespace fan_modes {
                 return config;
             }
         }
-        
+
         return { esphome::climate::CLIMATE_FAN_AUTO, 0, 0 };
     }
 }
