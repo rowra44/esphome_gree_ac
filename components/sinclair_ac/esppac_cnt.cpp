@@ -302,7 +302,7 @@ void SinclairACCNT::send_packet()
         packet[protocol::REPORT_FAN_SPD2_BYTE] |= (fan_modes::FAN_BOOST.sp2 << protocol::REPORT_FAN_SPD2_POS);
   
     }
-    else if (this->preset == climate::CLIMATE_PRESET_SLEEP) {
+    if (this->preset == climate::CLIMATE_PRESET_SLEEP) {
         packet[protocol::REPORT_SLEEP_BYTE] |= protocol::REPORT_SLEEP_MASK;
     }
 
