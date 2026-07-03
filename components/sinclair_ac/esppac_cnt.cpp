@@ -305,6 +305,10 @@ void SinclairACCNT::send_packet()
     if (this->preset == climate::CLIMATE_PRESET_SLEEP) {
         packet[protocol::REPORT_SLEEP_BYTE] |= protocol::REPORT_SLEEP_MASK;
     }
+    if (this->preset == climate::CLIMATE_PRESET_NONE) {
+        packet[protocol::REPORT_FAN_TURBO_BYTE] &= ~protocol::REPORT_FAN_TURBO_MASK;
+        packet[protocol::REPORT_SLEEP_BYTE] &= ~protocol::REPORT_SLEEP_MASK;
+    }
 
     /* VERTICAL SWING --------------------------------------------------------------------------- */
     uint8_t mode_vertical_swing = protocol::REPORT_VSWING_OFF;
