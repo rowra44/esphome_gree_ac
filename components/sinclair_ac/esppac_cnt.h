@@ -190,7 +190,7 @@ class SinclairACCNT : public SinclairAC {
         void handle_packet();
 
         climate::ClimateMode determine_mode();
-        const ClimateFanMode determine_fan_mode();
+        climate::ClimateFanMode determine_fan_mode();
         climate::ClimatePreset determine_preset();
 
         std::string determine_vertical_swing();

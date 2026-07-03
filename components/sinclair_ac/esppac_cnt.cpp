@@ -662,16 +662,12 @@ bool SinclairACCNT::processUnitReport()
     if (this->mode != newMode) hasChanged = true;
     this->mode = newMode;
 
-    const ClimateFanMode* newFanMode = determine_fan_mode();
-    if (this->has_custom_fan_mode())
-    {
-        if (strcmp(this->get_custom_fan_mode().c_str(), newFanMode) != 0) hasChanged = true;;
-    }
-    else
+    climate::ClimateFanMode newFanMode = determine_fan_mode();
+    if (this->fan_mode != newFanMode)
     {
         hasChanged = true;
     }
-    this->set_custom_fan_mode_(newFanMode);
+    this->fan_mode = newFanMode;
 
     climate::ClimatePreset newPreset = determine_preset();
     if (this->preset != newPreset)
