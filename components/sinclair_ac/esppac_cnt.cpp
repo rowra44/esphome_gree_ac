@@ -139,7 +139,7 @@ void SinclairACCNT::control(const climate::ClimateCall &call)
 
     if (call.get_preset().has_value())
     {
-        ESP_LOGD(TAG, "Requested preset change: %s", this->preset.c_str());
+        ESP_LOGD(TAG, "Requested preset change: %d", static_cast<int>(*preset));
         reqmodechange = true;
         this->update_ = ACUpdate::UpdateStart;
         this->preset = call.get_preset().value();
@@ -310,7 +310,7 @@ void SinclairACCNT::send_packet()
     if (this->preset == climate::CLIMATE_PRESET_SLEEP) {
         packet[protocol::REPORT_SLEEP_BYTE] |= protocol::REPORT_SLEEP_MASK;
     }
-    ESP_LOGD("sinclair_ac", "TX sleep byte: %02X", packet[protocol::REPORT_SLEEP_BYTE]);
+    ESP_LOGD(TAG, "TX sleep byte: %02X", packet[protocol::REPORT_SLEEP_BYTE]);
 
     /* VERTICAL SWING --------------------------------------------------------------------------- */
     uint8_t mode_vertical_swing = protocol::REPORT_VSWING_OFF;
