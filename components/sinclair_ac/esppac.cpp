@@ -61,6 +61,13 @@ void SinclairAC::read_data()
         }
         uint8_t c;
         this->read_byte(&c);  // Store in receive buffer
+        /* */
+        ESP_LOGD("sinclair_ac",
+         "RX state=%d size=%d byte=0x%02X",
+         this->serialProcess_.state,
+         this->serialProcess_.data.size(),
+         c);
+         /* */
 
         if (this->serialProcess_.state == STATE_RESTART)
         {
