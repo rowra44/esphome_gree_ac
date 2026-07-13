@@ -484,10 +484,10 @@ void SinclairACCNT::send_packet()
     }
 
     /* SLEEP --------------------------------------------------------------------------- */
-    if (this->sleep_state_)
+    /*if (this->sleep_state_)
     {
         packet[protocol::REPORT_SLEEP_BYTE] |= protocol::REPORT_SLEEP_MASK;
-    }
+    }*/
 
     /* XFAN --------------------------------------------------------------------------- */
     if (this->xfan_state_)
