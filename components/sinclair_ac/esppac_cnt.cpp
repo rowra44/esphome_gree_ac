@@ -282,8 +282,8 @@ void SinclairACCNT::send_packet()
 
     /* FAN SPEED --------------------------------------------------------------------------- */
     /* below will default to AUTO */
-    uint8_t fanSpeed1 = climate::CLIMATE_FAN_AUTO.sp1;
-    uint8_t fanSpeed2 = climate::CLIMATE_FAN_AUTO.sp2;
+    uint8_t fanSpeed1 = fan_modes::FAN_AUTO.sp1;
+    uint8_t fanSpeed2 = fan_modes::FAN_AUTO.sp2;
     bool    fanQuiet  = false;
 
     fan_modes::FanModeConfig fmc = fan_modes::get(
