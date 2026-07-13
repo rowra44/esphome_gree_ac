@@ -139,7 +139,7 @@ void SinclairACCNT::control(const climate::ClimateCall &call)
 
     if (call.get_preset().has_value())
     {
-        ESP_LOGD(TAG, "Requested preset change");
+        ESP_LOGD(TAG, "Requested preset change: %s", this->preset.c_str());
         reqmodechange = true;
         this->update_ = ACUpdate::UpdateStart;
         this->preset = call.get_preset().value();
@@ -301,8 +301,6 @@ void SinclairACCNT::send_packet()
    /* In HA, boost and sleep are presets, however in Gree's domain, they're merely a fan profile
       and a boolean switch to flip over.
    */
-    packet[protocol::REPORT_SLEEP_BYTE] &= ~protocol::REPORT_SLEEP_MASK;
-    packet[protocol::REPORT_FAN_TURBO_BYTE] &= ~protocol::REPORT_FAN_TURBO_MASK;
     if (this->preset == climate::CLIMATE_PRESET_BOOST)
     {
         fanSpeed1 = 5;
@@ -312,6 +310,7 @@ void SinclairACCNT::send_packet()
     if (this->preset == climate::CLIMATE_PRESET_SLEEP) {
         packet[protocol::REPORT_SLEEP_BYTE] |= protocol::REPORT_SLEEP_MASK;
     }
+    ESP_LOGD("sinclair_ac", "TX sleep byte: %02X", packet[protocol::REPORT_SLEEP_BYTE]);
 
     /* VERTICAL SWING --------------------------------------------------------------------------- */
     uint8_t mode_vertical_swing = protocol::REPORT_VSWING_OFF;
