@@ -139,7 +139,7 @@ void SinclairACCNT::control(const climate::ClimateCall &call)
 
     if (call.get_preset().has_value())
     {
-        ESP_LOGD(TAG, "Requested preset change: %d", static_cast<int>(*preset));
+        ESP_LOGV(TAG, "Requested preset change");
         reqmodechange = true;
         this->update_ = ACUpdate::UpdateStart;
         this->preset = call.get_preset().value();
@@ -282,8 +282,8 @@ void SinclairACCNT::send_packet()
 
     /* FAN SPEED --------------------------------------------------------------------------- */
     /* below will default to AUTO */
-    uint8_t fanSpeed1 = 0;
-    uint8_t fanSpeed2 = 0;
+    uint8_t fanSpeed1 = climate::CLIMATE_FAN_AUTO.sp1;
+    uint8_t fanSpeed2 = climate::CLIMATE_FAN_AUTO.sp2;
     bool    fanQuiet  = false;
 
     fan_modes::FanModeConfig fmc = fan_modes::get(
@@ -303,14 +303,13 @@ void SinclairACCNT::send_packet()
    */
     if (this->preset == climate::CLIMATE_PRESET_BOOST)
     {
-        fanSpeed1 = 5;
-        fanSpeed2 = 3;
+        //fanSpeed1 = 5;
+        //fanSpeed2 = 3;
         packet[protocol::REPORT_FAN_TURBO_BYTE] |= protocol::REPORT_FAN_TURBO_MASK;  
     }
     if (this->preset == climate::CLIMATE_PRESET_SLEEP) {
         packet[protocol::REPORT_SLEEP_BYTE] |= protocol::REPORT_SLEEP_MASK;
     }
-    ESP_LOGD(TAG, "TX sleep byte: %02X", packet[protocol::REPORT_SLEEP_BYTE]);
 
     /* VERTICAL SWING --------------------------------------------------------------------------- */
     uint8_t mode_vertical_swing = protocol::REPORT_VSWING_OFF;
@@ -482,12 +481,6 @@ void SinclairACCNT::send_packet()
     {
         packet[protocol::REPORT_BEEPER_BYTE] |= protocol::REPORT_BEEPER_MASK;
     }
-
-    /* SLEEP --------------------------------------------------------------------------- */
-    /*if (this->sleep_state_)
-    {
-        packet[protocol::REPORT_SLEEP_BYTE] |= protocol::REPORT_SLEEP_MASK;
-    }*/
 
     /* XFAN --------------------------------------------------------------------------- */
     if (this->xfan_state_)
